@@ -1,11 +1,11 @@
-# Use an official lightweight OpenJDK 17 image
-FROM eclipse-temurin:17-jdk-alpine
-
-# Create and use app directory
+# Stage 1: Build the application
+FROM maven:3.9.6-eclipse-temurin-24-alpine AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the JAR file into the image
-COPY target/codereview-0.0.1-SNAPSHOT.jar app.jar
-
-# Run the JAR file
+# Stage 2: Run the built application
+FROM eclipse-temurin:24-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/codereview-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
