@@ -16,7 +16,7 @@ public class PullRequestService {
     @Autowired
     private ReviewFeedbackRepository reviewFeedbackRepository;
 
-    public void saveReviewData(String repo, int prNumber, String action, String diffUrl, String diffContent, String feedbackText, boolean commented) {
+    public void saveReviewData(String repo, int prNumber, String action, String diffUrl, String diffContent, String feedbackText, String severity, boolean commented) {
         PullRequest pr = new PullRequest();
         pr.setRepoName(repo);
         pr.setPrNumber(prNumber);
@@ -29,6 +29,9 @@ public class PullRequestService {
         review.setDiffContent(diffContent);
         review.setFeedback(feedbackText);
         review.setCommentedOnGitHub(commented);
+        review.setSeverity(severity);
+        review.setIsAccurate(true);
         reviewFeedbackRepository.save(review);
+
     }
 }

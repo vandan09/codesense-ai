@@ -1,5 +1,4 @@
 package com.vandan.codereview.model;
-import com.vandan.codereview.dto.ReviewFeedbackDto;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;

@@ -64,6 +64,18 @@ public class WebhookController {
             System.out.println(geminiFeedback);
             gitHubService.postCommentToPullRequest(ownerLogin, repoName, prNumber, geminiFeedback, githubToken);
 
+            String[] lines = geminiFeedback.split("\n", 2);
+            String severityLine = lines[0].trim();
+            String severity;
+            if (severityLine.toLowerCase().contains("critical")) {
+                severity = "Critical";
+            } else if (severityLine.toLowerCase().contains("medium")) {
+                severity = "Medium";
+            } else {
+                severity = "Normal";
+            }
+
+
             pullRequestService.saveReviewData(
                     ownerLogin + "/" + repoName,
                     prNumber,
@@ -71,6 +83,7 @@ public class WebhookController {
                     diffUrl,
                     diff,
                     geminiFeedback,
+                    severity,
                     true
             );
         }

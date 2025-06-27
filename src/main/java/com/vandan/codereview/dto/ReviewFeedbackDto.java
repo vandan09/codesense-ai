@@ -9,6 +9,16 @@ public class ReviewFeedbackDto {
     private String diffContent;
     private String feedback;
 
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    private String severity;
+
     public Long getId() {
         return id;
     }

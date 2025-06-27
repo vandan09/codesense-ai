@@ -8,6 +8,7 @@ public class ReviewFeedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pull_request_id")
     private PullRequest pullRequest;
@@ -21,6 +22,28 @@ public class ReviewFeedback {
     private boolean commentedOnGitHub;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column
+    private Boolean isAccurate;
+
+    @Column(length = 20)
+    private String severity;
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public Boolean getIsAccurate() {
+        return isAccurate;
+    }
+
+    public void setIsAccurate(Boolean isAccurate) {
+        this.isAccurate = isAccurate;
+    }
 
     public Long getId() {
         return id;

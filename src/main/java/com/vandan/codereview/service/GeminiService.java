@@ -29,6 +29,9 @@ public class GeminiService {
             String prompt = "You're a senior software engineer reviewing a pull request. "
                     + "Please provide feedback on this code diff. "
                     + "Mention bugs, improvements, code smells, and suggestions clearly. "
+                    + "Also, in the **first line** of your response, clearly write the overall severity category "
+                    + "as one of these three options: **Critical**, **Medium**, or **Normal**, "
+                    + "based on how serious the issues in the code are.\n\n"
                     + "Here's the diff:\n\n"
                     + diffText;
 
