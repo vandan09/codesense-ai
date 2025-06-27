@@ -62,7 +62,10 @@ public class WebhookController {
             String geminiFeedback = geminiService.getReviewFromGemini(diff);
             System.out.println("Gemini Feedback:");
             System.out.println(geminiFeedback);
-            gitHubService.postCommentToPullRequest(ownerLogin, repoName, prNumber, geminiFeedback, githubToken);
+            String finalComment = "🧠 **AI Review Feedback** by _CodeSense AI_\n" +
+                    "_This comment was generated automatically to assist with your pull request._\n\n" +
+                    geminiFeedback;
+            gitHubService.postCommentToPullRequest(ownerLogin, repoName, prNumber, finalComment, githubToken);
 
             String[] lines = geminiFeedback.split("\n", 2);
             String severityLine = lines[0].trim();
