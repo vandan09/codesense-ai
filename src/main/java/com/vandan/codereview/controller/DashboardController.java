@@ -7,6 +7,8 @@ import com.vandan.codereview.model.ReviewFeedback;
 import com.vandan.codereview.repository.PullRequestRepository;
 import com.vandan.codereview.repository.ReviewFeedbackRepository;
 import com.vandan.codereview.service.DashboardService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/dashboard")
+@Tag(name = "Dashboard APIs", description = "APIs for visualizing review and feedback analytics")
 public class DashboardController {
 
     @Autowired
@@ -29,6 +32,10 @@ public class DashboardController {
     @Autowired
     private ReviewFeedbackRepository reviewFeedbackRepository;
 
+    @Operation(
+            summary = "Get list of all reviews",
+            description = "Fetches a list of all pull requests and their associated structured feedback. Useful for rendering the reviews list page."
+    )
     @GetMapping("/reviews")
     public ResponseEntity<List<PullRequestDto>> getAllReviews() {
         List<PullRequest> prs = pullRequestRepository.findAllWithFeedbacks();
@@ -60,16 +67,29 @@ public class DashboardController {
         return ResponseEntity.ok(response);
     }
 
+
+    @Operation(
+            summary = "Get overall dashboard statistics",
+            description = "Returns total number of pull requests, total feedback count, and other aggregated metrics for the dashboard top stats section."
+    )
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getStats() {
         return ResponseEntity.ok(dashboardService.getDashboardStats());
     }
 
+    @Operation(
+            summary = "Get review trend data",
+            description = "Returns data points showing the trend of pull request reviews over time, useful for line/bar charts in the dashboard."
+    )
     @GetMapping("/review-trends")
     public ResponseEntity<List<ReviewTrendDto>> getReviewTrends() {
         return ResponseEntity.ok(dashboardService.getReviewTrends());
     }
 
+    @Operation(
+            summary = "Get feedback summary by severity",
+            description = "Returns a breakdown of feedback based on severity or category (e.g., Code Style, Performance, Bug Risk) for chart display."
+    )
     @GetMapping("/severity-summary")
     public Map<String, Long> getSeveritySummary() {
         List<ReviewFeedback> allFeedbacks = reviewFeedbackRepository.findAll();

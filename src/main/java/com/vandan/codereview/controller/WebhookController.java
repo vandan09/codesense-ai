@@ -2,6 +2,8 @@ package com.vandan.codereview.controller;
 import com.vandan.codereview.service.GeminiService;
 import com.vandan.codereview.service.GitHubService;
 import com.vandan.codereview.service.PullRequestService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/webhook")
+@Tag(
+        name = "Webhook APIs",
+        description = "APIs for handling GitHub pull request webhooks and triggering automated code reviews using Gemini AI."
+)
 public class WebhookController {
 
     @Autowired
@@ -26,6 +32,7 @@ public class WebhookController {
     @Value("${github.token}")
     private String githubToken;
 
+    @Operation(summary = "Receive GitHub Webhook", description = "Processes PR events from GitHub and triggers review.")
     @PostMapping("/github")
     public ResponseEntity<Void> handleGitHubWebhook(@RequestBody Map<String, Object> payload) {
         System.out.println("Webhook triggered successfully");
